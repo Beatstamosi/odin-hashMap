@@ -1,5 +1,6 @@
 class Node {
-    constructor(value=null) {
+    constructor(key, value) {
+        this.key = key;
         this.value = value;
         this.nextNode = null;
     }
@@ -10,9 +11,9 @@ export default class LinkedList {
         this.list = [];
     }
 
-    append(value) {
+    append(key, value) {
         let lastElement = this.tail();
-        let newElement = new Node(value);
+        let newElement = new Node(key, value);
 
         if (lastElement && lastElement.nextNode === 0) {
             lastElement.nextNode = newElement;
@@ -21,9 +22,9 @@ export default class LinkedList {
         this.list.push(newElement);
     }
 
-    prepend(value) {
+    prepend(key, value) {
         let firstElement = this.list[0];
-        let newElement = new Node(value);
+        let newElement = new Node(key, value);
 
         if (firstElement) {
             newElement.nextNode = firstElement;
@@ -52,12 +53,22 @@ export default class LinkedList {
         this.list.pop();
     }
 
-    contains(value) {
+    containsValue(value) {
         return this.list.find((item) => item.value == value) !== undefined;
     }
 
-    find(value) {
+    containsKey(key) {
+        return this.list.find((item) => item.key == key) !== undefined;
+    }
+
+    findValue(value) {
         let index = this.list.findIndex((item) => item.value == value);
+
+        return index == -1 ? null : index;
+    }
+
+    findKey(key) {
+        let index = this.list.findIndex((item) => item.key == key);
 
         return index == -1 ? null : index;
     }
@@ -69,10 +80,10 @@ export default class LinkedList {
         return string.join(" -> ");
     }
 
-    insertAt(value, index) {
+    insertAt(key, value, index) {
         let currentNode = this.list[index];
         let previousNode = this.list[index - 1];
-        let newNode = new Node(value);
+        let newNode = new Node(key, value);
         newNode.nextNode = currentNode;
 
         if (previousNode) previousNode.nextNode = newNode;
